@@ -6,7 +6,7 @@ import pandas as pd
 scope = ['https://www.googleapis.com/auth/spreadsheets',
          "https://www.googleapis.com/auth/drive"]
 
-credentials = ServiceAccountCredentials.from_json_keyfile_name("projet.json", scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_name("Scripts\API_key\projet.json", scope)
 client = gspread.authorize(credentials)
 
 sheet = client.open("BDD_nom_id_projet").sheet1
