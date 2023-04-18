@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import pygame
+from pygame import pygame.mixer
 
 # Set up the GPIO pin
 GPIO.setmode(GPIO.BCM)
