@@ -7,7 +7,7 @@ GPIO.setup(26, GPIO.OUT)
 
 # Load the WAV file
 pygame.mixer.init()
-pygame.mixer.music.load("test.wav")
+pygame.mixer.music.load("Scripts\HP\test.wav")
 
 # Play the WAV file through the GPIO pin
 GPIO.output(26, GPIO.HIGH)
