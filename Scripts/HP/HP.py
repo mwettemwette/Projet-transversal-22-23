@@ -1,12 +1,21 @@
 import RPi.GPIO as GPIO
-import time
+import pygame
 
-GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD numbering schemes. I use BCM  
-GPIO.setup(26, GPIO.OUT)# set GPIO 25 as an output. You can use any GPIO port  
-p = GPIO.PWM(26, 50)    # create an object p for PWM on port 25 at 50 Hertz  
-p.start(70)             # start the PWM on 70 percent duty cycle  
-for x in range(200, 2200):
-    p.ChangeFrequency(x)  # change the frequency to x Hz (
-    time.sleep(0.0001)
-p.stop()                # stop the PWM output  
-GPIO.cleanup()          # when your program exits, tidy up after yourself
+# Set up the GPIO pin
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(26, GPIO.OUT)
+
+# Load the WAV file
+pygame.mixer.init()
+pygame.mixer.music.load("test.wav")
+
+# Play the WAV file through the GPIO pin
+GPIO.output(26, GPIO.HIGH)
+pygame.mixer.music.play()
+while pygame.mixer.music.get_busy():
+    continue
+GPIO.output(26, GPIO.LOW)
+
+# Clean up the GPIO pin and pygame
+GPIO.cleanup()
+pygame.mixer.quit()
