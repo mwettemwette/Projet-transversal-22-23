@@ -1,7 +1,21 @@
-from scipy.io import wavfile as wav
-from scipy.fftpack import fft
-import numpy as np
+import RPi.GPIO as GPIO
+from pygame import mixer
 
-rate, data = wav.read("test.wav")
-fft_out = fft(data)
+# Set up the GPIO pin
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(26, GPIO.OUT)
 
+# Load the WAV file
+mixer.init()
+mixer.music.load("Scripts\HP\test.wav")
+
+# Play the WAV file through the GPIO pin
+GPIO.output(26, GPIO.HIGH)
+mixer.music.play()
+while mixer.music.get_busy():
+    continue
+GPIO.output(26, GPIO.LOW)
+
+# Clean up the GPIO pin and pygame
+GPIO.cleanup()
+mixer.quit()
