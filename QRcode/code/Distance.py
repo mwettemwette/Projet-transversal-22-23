@@ -90,8 +90,7 @@ cap = cv2.VideoCapture(0)
 # initialize the cv2 QRCode detector
 detector = cv2.QRCodeDetector()
 
-referenceImage = cv2.imread("ab.jpg")
-print("ok")
+referenceImage = cv2.imread("./QRcode/code/ab.jpg")
 Rwidth= DetectQRcode(referenceImage)
 
 KNOWN_DISTANCE = 30.1  # inches
