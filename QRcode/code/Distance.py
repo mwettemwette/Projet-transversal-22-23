@@ -90,11 +90,11 @@ cap = cv2.VideoCapture(0)
 # initialize the cv2 QRCode detector
 detector = cv2.QRCodeDetector()
 
-referenceImage = cv2.imread("./QRcode/code/ab.jpg")
+referenceImage = cv2.imread("./QRcode/code/base.jpg")
 Rwidth= DetectQRcode(referenceImage)
 
-KNOWN_DISTANCE = 30.1  # inches
-KNOWN_WIDTH = 5.0  # inches
+KNOWN_DISTANCE = 15*2.4  # inches
+KNOWN_WIDTH = 6.0*2.4  # inches
 focalLength = focalLengthFinder(KNOWN_DISTANCE, KNOWN_WIDTH, Rwidth)
 while True:
     _, img = cap.read()
@@ -108,7 +108,7 @@ while True:
         
         # print("not none")
         Distance = distanceFinder(focalLength, KNOWN_WIDTH, codeWidth)
-        print ("Distance : " + str(round(10+Distance/(2.54),2)))
+        print ("Distance : " + str(round(Distance/(2.54),2)))
         # cv.putText(frame, f"Distance: {Distance}", (50,50), fonts, 0.6, (GOLD), 2)
         fin(data)
         data = None
