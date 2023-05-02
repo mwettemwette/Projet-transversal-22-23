@@ -34,7 +34,7 @@ def connect_bdd():
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name("Scripts\Python\projet.json", scope)
     client = gspread.authorize(credentials)
-    sheet = client.open("BDD_nom_id_projet").sheet1
+    sheet = client.open("BDD_nom_id_projet").worksheet("Sheet2")
     return sheet
 
 
