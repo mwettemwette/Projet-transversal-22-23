@@ -20,7 +20,7 @@ colors= np.random.uniform(0,255,size=(len(classes),3))
 # Video
 cap = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_PLAIN
-starting_time= time.time()
+
 frame_id = 0
 
 while True:
@@ -74,15 +74,11 @@ while True:
             label = str(classes[class_ids[i]])
             confidence= confidences[i]
             color = colors[class_ids[i]]
-            cv2.rectangle(frame,(x,y),(x+w,y+h),color,2)
-            cv2.putText(frame,label+" "+str(round(confidence,2)),(x,y+30),font,1,(255,255,255),2)
+            
             
 
-    elapsed_time = time.time() - starting_time
-    fps=frame_id/elapsed_time
-    cv2.putText(frame,"FPS:"+str(round(fps,2)),(10,50),font,2,(0,0,0),1)
     
-    cv2.imshow("Image",frame)
+
     key = cv2.waitKey(1)
     
     if key == 27: # Touche ESC pour quitter
