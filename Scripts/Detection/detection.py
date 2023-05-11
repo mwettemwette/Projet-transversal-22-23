@@ -68,6 +68,12 @@ while True:
         
     print(labels)
 
+    if 'person' in labels:
+        os.system("aplay bonjour.wav")
+        time.sleep(1)
+        cap.release()
+        os.execlp("python3","pyhton3","detection.py")
+    
     for i in range(len(boxes)):
         if i in indexes:
             x,y,w,h = boxes[i]
@@ -77,13 +83,7 @@ while True:
             
             
 
-    
 
-    key = cv2.waitKey(1)
-    
-    if key == 27: # Touche ESC pour quitter
-        break;
-    
 cap.release()    
 cv2.destroyAllWindows()    
     
