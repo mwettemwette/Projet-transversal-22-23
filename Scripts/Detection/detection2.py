@@ -1,3 +1,4 @@
+
 import cv2
 import numpy as np
 import time
@@ -6,26 +7,29 @@ import os
 #chargement YOLO
 #net = cv2.dnn.readNet("yolov3.weights","yolov3.cfg") # Original yolov3
 net = cv2.dnn.readNet("yolov3-tiny.weights","yolov3-tiny.cfg") #Tiny Yolo
+
 classes = []
 with open("coco.names","r") as f:
     classes = [line.strip() for line in f.readlines()]
-    
-outputlayers=[]
-layer_names = net.getLayerNames()
-for i in net.getUnconnectedOutLayers():
-    outputlayers.append(layer_names[i - 1])
 
-colors= np.random.uniform(0,255,size=(len(classes),3))
 
 # Video
 cap = cv2.VideoCapture(0)
-font = cv2.FONT_HERSHEY_PLAIN
+frameCam = cap.read()
+cap.release()
 
-frame_id = 0
 
-while True:
-    _,frame= cap.read() # lécture vidéo
-    frame_id+=1
+def detection(frameCam,classes,net):
+    outputlayers=[]
+    layer_names = net.getLayerNames()
+    for i in net.getUnconnectedOutLayers():
+        outputlayers.append(layer_names[i - 1])
+        
+    colors= np.random.uniform(0,255,size=(len(classes),3))
+    
+    
+    _,frame = frameCam # lécture vidéo
+
     
     height,width,channels = frame.shape
     # Detection
@@ -72,7 +76,8 @@ while True:
         os.system("aplay bonjour.wav")
         time.sleep(1)
         cap.release()
-        os.execlp("python3","pyhton3","detection.py")
+        return()
+        
     
     for i in range(len(boxes)):
         if i in indexes:
@@ -84,7 +89,9 @@ while True:
             
 
 
-cap.release()    
-cv2.destroyAllWindows()    
+        
+
     
-    
+    return()
+
+detection(frameCam,classes,net)
