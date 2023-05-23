@@ -35,8 +35,8 @@ def run():
             
             for i in scan:
                 angle.append(i[1])
-            indexs=[round(near(angle,0),1),round(near(angle,45),1),round(near(angle,90),1),
-                round(near(angle,135),1),round(near(angle,180),1)]
+            indexs=[round(near(angle,90),1), round(near(angle,135),1),round(near(angle,160),1),
+                    round(near(angle,180),1),round(near(angle,200),1),round(near(angle,225),1),round(near(angle,270),1)]
             
             for k in scan:
                 if round(k[1],1) in indexs:
@@ -45,7 +45,8 @@ def run():
                     
                     
             print(toSend)
-            ser.write(toSend.encode())
+            if len(indexs) == 7:
+                ser.write(toSend.encode())
             print("\n")
         
     except KeyboardInterrupt:
