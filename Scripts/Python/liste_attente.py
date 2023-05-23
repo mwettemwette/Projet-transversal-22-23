@@ -32,7 +32,7 @@ def connect_bdd(nom):
     scope = ['https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive"]
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("robot\projet.json", scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("Scripts/Python/projet.json", scope)
     client = gspread.authorize(credentials)
     sheet = client.open("BDD_nom_id_projet").worksheet(nom)
     return sheet
@@ -76,6 +76,12 @@ def recup_livraison():
         pos_y = get_y(li,col,3,sheet)
         print(pos_x,pos_y)
 
+def get_new_coord(nmb):
+    sheet = connect_bdd("Requete")
+    cell = sheet.cell(2, nmb).value
+    sheet = connect_bdd("Sheet1")
+    row,col = trouver_nmb(cell,sheet)
+    return (sheet.cell(row, col+2).value,sheet.cell(row, col+3).value)
 
 
 
@@ -83,7 +89,7 @@ def recup_livraison():
 
 # Instruction test
 
-organisation_bdd()
+# organisation_bdd()
 
 # sheet = connect_bdd("Sheet2")
 # x,y = trouver_nom("Julien",sheet)

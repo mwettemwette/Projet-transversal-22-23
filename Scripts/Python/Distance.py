@@ -16,7 +16,8 @@ def fin(data):
             a = False
 
     nmb1 = int(nmb1)
-    print("Le nombre que contient le QR code est : " + str(nmb1))
+    # print("Le nombre que contient le QR code est : " + str(nmb1))
+    return nmb1
 
 
 def calculate_slope(p1, p2):
@@ -85,38 +86,44 @@ def DetectQRcode(image):
         # retruing the Eucaldain distance/ QR code width other words  
         return euclaDistance
 
-# initalize the cam
-cap = cv2.VideoCapture(0)
-# initialize the cv2 QRCode detector
-detector = cv2.QRCodeDetector()
+def init() :
+    # initalize the cam
+    cap = cv2.VideoCapture(0)
+    # initialize the cv2 QRCode detector
+    detector = cv2.QRCodeDetector()
 
-referenceImage = cv2.imread("./QRcode/code/QR_base_papier.jpg")
-Rwidth= DetectQRcode(referenceImage)
+    referenceImage = cv2.imread("./Scripts/Python/QR_base_papier.jpg")
+    Rwidth= DetectQRcode(referenceImage)
 
-KNOWN_DISTANCE = 22.5*2.4  # inches
-KNOWN_WIDTH = 10.5*2.4  # inches
-focalLength = focalLengthFinder(KNOWN_DISTANCE, KNOWN_WIDTH, Rwidth)
-while True:
-    _, img = cap.read()
-    # detect and decode
-    data, bbox, _ = detector.detectAndDecode(img)
-    barcodes = pyzbar.decode(img)
+    KNOWN_DISTANCE = 22.5*2.4  # inches
+    KNOWN_WIDTH = 10.5*2.4  # inches
+    focalLength = focalLengthFinder(KNOWN_DISTANCE, KNOWN_WIDTH, Rwidth)
+    return cap,detector,Rwidth,KNOWN_DISTANCE,KNOWN_WIDTH,focalLength
 
-    # finding width of QR code width in the frame 
-    codeWidth= DetectQRcode(img)
-    if codeWidth is not None and data:
-        
-        # print("not none")
-        Distance = distanceFinder(focalLength, KNOWN_WIDTH, codeWidth)
-        print ("Distance : " + str(round(Distance/(2.54),2)))
-        # cv.putText(frame, f"Distance: {Distance}", (50,50), fonts, 0.6, (GOLD), 2)
-        fin(data)
-        data = None
-    cv2.imshow("QRCODEscanner", img)    
-    if cv2.waitKey(1) == ord("q"):
-        break
+def admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
+    while True :
+        _, img = cap.read()
+        # detect and decode
+        data, bbox, _ = detector.detectAndDecode(img)
+        barcodes = pyzbar.decode(img)
+
+        # finding width of QR code width in the frame 
+        codeWidth= DetectQRcode(img)
+        if codeWidth is not None and data:
+            nmb_frame+=1
+            # print("not none")
+            Distance = distanceFinder(focalLength, KNOWN_WIDTH, codeWidth)
+            # print ("Distance : " + str(round(Distance/(2.54),2)))
+            # cv.putText(frame, f"Distance: {Distance}", (50,50), fonts, 0.6, (GOLD), 2)
+            Distance = round(Distance/(2.54),2)
+            nmb = fin(data)
+            if nmb_frame == 10 :
+                return nmb,Distance 
+            data = None
+        else :
+            nmb_frame = 0
 
 
+# cap,detector,Rwidth,KNOWN_DISTANCE,KNOWN_WIDTH,focalLength = init()
+# admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH)
 
-cap.release()
-cv2.destroyAllWindows()
