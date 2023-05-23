@@ -30,7 +30,7 @@ def run():
     
     try:
         for scan in lidar.iter_scans():
-            toSend=""
+            toSend="LIDAR"
             angle=[]
             dist = []
             
@@ -42,7 +42,7 @@ def run():
             for k in scan:
                 if round(k[1],1) in indexs:
                     # toSend.append([k[1],k[2]]) # Angle + distance en mm
-                    toSend+=(str(round(k[2]))[:-1:])+" "
+                    toSend+=":"+(str(round(k[2]))[:-1:])
                     dist.append(1)
                     
                     
