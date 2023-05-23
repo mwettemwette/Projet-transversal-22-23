@@ -45,7 +45,7 @@ def run():
                     
                     
             print(toSend)
-            ser.write(toSend)
+            ser.write(toSend.encode())
             print("\n")
         
     except KeyboardInterrupt:
