@@ -77,7 +77,7 @@ def envoie_stm32(ser):
             distance.acquire()
             cycle.acquire()
             if qr.value !=0 and distance.value!=0:
-                cmd = 'DIST_QR:['+str(distance.value)+"]"
+                cmd = 'DIST_QR:['+str(distance.value*10)+"]"
                 ser.write(cmd.encode())
             if cycle.value==4 :
                 cycle.value=0
@@ -92,7 +92,7 @@ def envoie_stm32(ser):
 
         type.acquire()
         if type.value==1:
-            cmd = "DIR_INTI:[45]:[3]"
+            cmd = "DIR_INTI:[45]:[1000]"
             ser.write(cmd.encode())
             type.value = 0
         type.release()
