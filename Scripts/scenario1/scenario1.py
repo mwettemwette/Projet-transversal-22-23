@@ -42,6 +42,9 @@ def lecture_stm32(ser):
             
         # Arrêt du programme "q"
         if message == "q":
+            stop.acquire()
+            stop.value = True
+            stop.release()
             break
     # Fermeture du port série
     ser.close()
@@ -105,10 +108,11 @@ if __name__ == "__main__" :
     detection_humain = mp.Value('b',True)
     start_qr = mp.Value('b',False)
     qr = mp.Value('i',0)
-    distance = mp.Value('f',1.0)
+    distance = mp.Value('f',0.0)
     new_qr = mp.Value('b',False)
     type = mp.Value('i',0)
     cycle = mp.Value('i',0)
+    stop = mp.Value('b',False)
 
     ser = serial.Serial('/dev/ttyAMA0', baudrate=9600, timeout=1)
 

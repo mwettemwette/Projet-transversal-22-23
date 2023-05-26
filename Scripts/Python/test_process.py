@@ -2,11 +2,11 @@ import multiprocessing as mp
 
 
 def oui():
-    a.acquire()
+    # a.acquire()
     print("oui : "+str(a.value))
     a.value+=1
     print("oui : "+str(a.value))
-    a.release()
+    # a.release()
 
 
 def non():
