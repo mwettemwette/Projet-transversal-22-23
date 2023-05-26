@@ -23,10 +23,4 @@ ASK_INIT = demande de l'angle et de la distance à parcourir entre point de dép
 
 STOP_CAM = arret de lecture de qr code
 
-TEST_1 = Angled the cam to 0° and waiting 5 seconds
-TEST_2 = Angled the cam to 45° and waiting 5 seconds
-TEST_3 = Angled the cam to 90° and waiting 5 seconds
-TEST_4 = Angled the cam to 135° and waiting 5 seconds
-
-
 
