@@ -52,7 +52,7 @@ def lecture_stm32(ser):
 
 
 
-def lecture_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
+def lecture_qr(cap,detector,focalLength,KNOWN_WIDTH):
     while True:
         detection_humain.acquire()
         start_qr.acquire()
@@ -82,7 +82,7 @@ def envoie_stm32(ser):
             if qr.value !=0 and distance.value!=0:
                 cmd = 'DIST_QR:['+str(distance.value*10)+"]"
                 ser.write(cmd.encode())
-            if cycle.value==4 :
+            elif cycle.value==4 :
                 cycle.value=0
                 cmd = 'ERROR_QR'
                 ser.write(cmd.encode())
@@ -114,9 +114,9 @@ if __name__ == "__main__" :
     cycle = mp.Value('i',0)
     stop = mp.Value('b',False)
 
-    ser = serial.Serial('/dev/ttyAMA0', baudrate=9600, timeout=1)
+    ser = serial.Serial('/dev/ttyS0', baudrate=19200, timeout=1)
 
-    cap,nmb_frame,detector,focalLength,KNOWN_WIDTH = dist.init()
+    cap,detector,Rwidth,KNOW_DISTANCE,KNOW_WIDTH,focalLength = dist.init()
 
     net = cv2.dnn.readNet("yolov3-tiny.weights","yolov3-tiny.cfg") #Tiny Yolo
     classes = []
@@ -126,10 +126,10 @@ if __name__ == "__main__" :
     cmd = "START_AUTONOMOUS"
     ser.write(cmd.encode())
 
-    p1 = mp.Process(target=lecture_qr,args=(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH))
+    p1 = mp.Process(target=lecture_qr,args=(cap,detector,focalLength,KNOWN_WIDTH))
     p2 = mp.Process(target=humain,args=(cap,classes,net))
-    p3 = mp.Process(target=lecture_stm32,args=(ser))
-    p4 = mp.Process(target=envoie_stm32,args=(ser))
+    p3 = mp.Process(target=lecture_stm32,args=(ser,))
+    p4 = mp.Process(target=envoie_stm32,args=(ser,))
 
     p1.start()
     p2.start()
