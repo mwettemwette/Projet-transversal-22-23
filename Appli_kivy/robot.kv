@@ -1,0 +1,184 @@
+#:kivy 1.0
+
+<Accueil>:
+
+    id:Accueil
+        
+    Label:
+        font_size: 70
+        text: " Welcome ! "
+        size_hint : 0.3, 0.3
+        pos_hint: {"center_x":0.5, "center_y":0.5}
+        
+
+    Button:
+        text: "Connexion"
+        size_hint : 0.3, 0.3
+        pos_hint: {"x":0.1, "top":0.3}
+        border_radius: [20,0,60,0]
+        on_press :
+            print("appuis connexion")
+            root.manager.current='Log'
+
+    Button:
+        text: "Retour"
+        size_hint : 0.3, 0.3
+        pos_hint: {"x":0.6, "top":0.3}
+        border_radius:[10,10,10,10]
+        on_press :
+            print("No possible return")
+            
+
+<Log>:
+    id:Log
+
+    Label : 
+        text : " Connexion "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":1}
+
+    
+
+    TextInput:
+        id : user_id
+        hint_text : " User id "
+        size_hint : 0.3, 0.1
+        border_radius:[10,10,10,10]
+        pos_hint: {"center_x":0.5, "top":0.8}
+
+    TextInput:
+        id : user_pwd
+        hint_text : " User pwd "
+        password: True
+        size_hint : 0.3, 0.1
+        border_radius:[10,10,10,10]
+        pos_hint: {"center_x":0.5, "top":0.65}
+
+    Button:
+        text: "Connexion"
+        size_hint : 0.3, 0.2
+        pos_hint: {"center_x":0.5, "top":0.5}
+        border_radius:[10,10,10,10]
+        on_press :
+            #root.manager.current='Logged_in'
+            root.manager.current='Logged_in' if root.logged_in() else print('You shall not pass')
+
+    Button:
+        text: "Retour"
+        size_hint : 0.3, 0.2
+        pos_hint: {"center_x":0.5, "top":0.2}
+        border_radius:[10,10,10,10]
+        on_press :
+            root.manager.current='Accueil'
+           
+            
+
+
+<Logged_in>:
+    id:Logged_in
+
+    Label : 
+        id:sender
+        text : "  "
+        size_hint : 0.5, 0.1
+        pos_hint: {"center_x":0.05, "top":1}
+
+    Label : 
+        id:user
+        text : "  "
+        size_hint : 0.3, 0.3
+        pos_hint: {"center_x":0.5, "top":0.95}
+
+    Label : 
+        text : " Appel du robot ^^ "
+        size_hint : 0.3, 0.3
+        pos_hint: {"center_x":0.5, "top":0.9}
+
+    TextInput:
+        id :adresse
+        hint_text : " DESTINATAIRE : "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.6}
+
+    Button:
+        text: "Envoyer appel ! UWU "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.4}
+        on_press:
+            root.manager.current='In_the_queue' if root.call_robot() else print('call failed')
+
+    Button:
+        text: " Déconnexion "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.2}
+        on_press:
+            root.manager.current='Accueil'
+
+<In_the_queue>:
+    id:In_the_queue
+
+    Label : 
+        text : " Votre appel a été pris en compte ! XD \n Vous ête dans la file d'attente ^^ "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.9}
+
+    Label : 
+        text : " Expéditeur : "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.8}
+
+    Label : 
+        id:sender
+        text : "  "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.7}
+
+    Label : 
+        text : " Destinataire : "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.6}
+    
+    Label : 
+        id:adresse
+        text : "  "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.5}
+    
+    Button:
+        text: " Retour appel ? "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.4}
+        on_press:
+            root.manager.current='Logged_in'
+    
+    Button:
+        text: " Déconnexion "
+        size_hint : 0.3, 0.1
+        pos_hint: {"center_x":0.5, "top":0.2}
+        on_press:
+            root.manager.current='Accueil'
+    
+
+<CustomPopup>:
+    size_hint: 0.5, 0.5
+    auto_dimiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'message'
+        Button:
+            text: 'Fermer'
+            on_release : root.dismiss()
+
+
+<P>:
+    Label:
+        text: "You shall not pass ! "
+        size_hint: 0.1, 0.2
+        pos_hint: {"x":0.2, "top":1}
+
+    Button:
+        text: "try again ?"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_press: lambda: self.popup.dismiss()
