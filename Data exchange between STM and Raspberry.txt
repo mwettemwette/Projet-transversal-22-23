@@ -19,3 +19,5 @@ MESSAGES ORIGINANTS DE LA STM32
 
 START_CAM =demande l'activation de la caméra
 
+ASK_INIT = demande de l'angle et de la distance à parcourir entre point de départ et destination.
+
