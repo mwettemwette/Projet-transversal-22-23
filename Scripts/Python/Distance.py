@@ -117,7 +117,7 @@ def admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
             # cv.putText(frame, f"Distance: {Distance}", (50,50), fonts, 0.6, (GOLD), 2)
             Distance = round(Distance/(2.54),2)
             nmb = fin(data)
-            if nmb_frame == 10 :
+            if nmb_frame == 1 :
                 return nmb,Distance 
             data = None
         else :
