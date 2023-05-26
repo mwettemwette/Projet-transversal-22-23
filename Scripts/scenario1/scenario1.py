@@ -1,15 +1,15 @@
 import multiprocessing as mp
-import envoit as env
-import uart as rece
 import Distance as dist
 import serial
+import cv2
+import detection2 as detec
 
-def humain():
+def humain(cap,classes,net):
     while True :
         detection_humain.acquire()
         if detection_humain.value :
-            # print("je suis entrain de detecter des humain")
-            pass
+            frameCam = cap.read()
+            detec.detection(frameCam,classes,net)
         detection_humain.release()
 
 def lecture_stm32(ser):
@@ -19,14 +19,25 @@ def lecture_stm32(ser):
         
         # Vérification si le message n'est pas vide
         if message:
-            print("Message reçu:", message)
-            if message == "qr":
-                type.acquire()
-                type.value = 1
-                type.release()
+            if message == "START_CAM":
                 detection_humain.acquire()
                 detection_humain.value = False
                 detection_humain.release()
+                start_qr.acquire()
+                start_qr.value = True
+                start_qr.release()
+
+
+            if message == "ASK_INIT":
+                type.acquire()
+                type.value = 1
+                type.release()
+
+            if message == "STOP_CAM" :
+                detection_humain.acquire()
+                detection_humain.value = True
+                detection_humain.release()
+                
 
             
         # Arrêt du programme "q"
@@ -41,46 +52,80 @@ def lecture_stm32(ser):
 def lecture_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
     while True:
         detection_humain.acquire()
-        if detection_humain.value==False:
+        start_qr.acquire()
+        if detection_humain.value==False and start_qr.value == True:
             qr.acquire()
             distance.acquire()
-            qr.value,distance.value = dist.admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH)
+            qr.value,distance.value = dist.admmin_qr(cap,10,detector,focalLength,KNOWN_WIDTH)
             new_qr.acquire()
             new_qr.value = True
             new_qr.release()
             qr.release()
             distance.release()
-        detection_humain.value = True
+            cycle.acquire()
+            cycle.value+=1
+            cycle.release()
+        start_qr.value = False
+        start_qr.release()
         detection_humain.release()
 
-def envoie_stm32():
+def envoie_stm32(ser):
     while True:
         new_qr.acquire()
         if new_qr.value :
             qr.acquire()
             distance.acquire()
-            cmd = str(qr.value)+" "+str() 
+            cycle.acquire()
+            if qr.value !=0 and distance.value!=0:
+                cmd = 'DIST_QR:['+str(distance.value)+"]"
+                ser.write(cmd.encode())
+            if cycle.value==4 :
+                cycle.value=0
+                cmd = 'ERROR_QR'
+                ser.write(cmd.encode())
+
+            new_qr.value = False
+            qr.release()
+            distance.release()
+            new_qr.release()
+            cycle.release()
+
+        type.acquire()
+        if type.value==1:
+            cmd = "DIR_INTI:[45]:[3]"
             ser.write(cmd.encode())
+            type.value = 0
+        type.release()
+
+        
 
 
 if __name__ == "__main__" :
 
     detection_humain = mp.Value('b',True)
-    envoie = mp.Value('b',False)
+    start_qr = mp.Value('b',False)
     qr = mp.Value('i',0)
     distance = mp.Value('f',1.0)
     new_qr = mp.Value('b',False)
     type = mp.Value('i',0)
-    livraison = mp.Value('i',1)
+    cycle = mp.Value('i',0)
 
     ser = serial.Serial('/dev/ttyAMA0', baudrate=9600, timeout=1)
 
     cap,nmb_frame,detector,focalLength,KNOWN_WIDTH = dist.init()
 
+    net = cv2.dnn.readNet("yolov3-tiny.weights","yolov3-tiny.cfg") #Tiny Yolo
+    classes = []
+    with open("coco.names","r") as f:
+        classes = [line.strip() for line in f.readlines()]
+
+    cmd = "START_AUTONOMOUS"
+    ser.write(cmd.encode())
+
     p1 = mp.Process(target=lecture_qr,args=(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH))
-    p2 = mp.Process(target=humain,args=())
+    p2 = mp.Process(target=humain,args=(cap,classes,net))
     p3 = mp.Process(target=lecture_stm32,args=(ser))
-    p4 = mp.Process(target=envoie_stm32,args=())
+    p4 = mp.Process(target=envoie_stm32,args=(ser))
 
     p1.start()
     p2.start()

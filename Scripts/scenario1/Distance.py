@@ -101,9 +101,11 @@ def init() :
     return cap,detector,Rwidth,KNOWN_DISTANCE,KNOWN_WIDTH,focalLength
 
 def admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
+    Distance = None
+    nmb = None
     while True :
         _, img = cap.read()
-        nmb_frame+=1
+        nmb_frame = nmb_frame-1
         # detect and decode
         data, bbox, _ = detector.detectAndDecode(img)
         barcodes = pyzbar.decode(img)
@@ -118,12 +120,12 @@ def admmin_qr(cap,nmb_frame,detector,focalLength,KNOWN_WIDTH):
             Distance = round(Distance/(2.54),2)
             nmb = fin(data)
             data = None
-            
-        if nmb_frame == 10 :
+
+        if nmb_frame == 0 :
             if Distance!=None and nmb!=None:
                 return nmb,Distance 
             else :
-                return None,None
+                return 0,0
         
         
 
