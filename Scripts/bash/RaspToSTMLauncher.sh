@@ -11,6 +11,8 @@ function verif_prog_running ()
 
 cd Desktop
 
+chmod u+x envoie.py
+
 python3 envoie.py
 run=true
 
@@ -19,8 +21,10 @@ do
     # événement de clavier non bloquant
     read -t 0.1 input
 
+    #si l'input n'est pas vide
     if [[ -n "$input" ]]; then
 
+        #si l'input est un k 
         if [ "$input" -eq "k" ];then
 
             #On kill le code python
