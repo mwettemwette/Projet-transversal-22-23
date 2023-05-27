@@ -11,6 +11,8 @@ DIR_INTI:[ANGLE]:[DIST] = Envoie de l'angle et de la distance à parcourir entre
 
 DIST_QR:[DIST_QR] = Information de la distance entre robot et QR Code
 
+NOTHING = retour apres un start cam si aucun qr n'as été trouvé et que cela ne fait pas 4 cycles
+
 
 
 
