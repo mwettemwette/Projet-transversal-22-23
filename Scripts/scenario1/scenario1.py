@@ -16,7 +16,7 @@ def humain(cap,classes,net):
         detection_humain.release()
         time.sleep(0.5)
 
-def lecture_stm32(ser):
+def lecture_stm32():
     ser = serial.Serial('/dev/ttyS0', baudrate=19200, timeout=1)
     cmd = "START_AUTONOMOUS"
     ser.write(cmd.encode())
@@ -168,7 +168,7 @@ if __name__ == "__main__" :
 
     p1 = mp.Process(target=lecture_qr,args=(cap,detector,focalLength,KNOW_WIDTH))
     p2 = mp.Process(target=humain,args=(cap,classes,net))
-    p3 = mp.Process(target=lecture_stm32,args=(ser,))
+    p3 = mp.Process(target=lecture_stm32,args=())
     # p4 = mp.Process(target=envoie_stm32,args=(ser,))
 
     p1.start()
