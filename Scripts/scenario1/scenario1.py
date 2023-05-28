@@ -51,7 +51,7 @@ def lecture_stm32():
                             cycle.value = 0
                             break
                         else :
-                            cmd = 'NOTHING'
+                            cmd = 'ERROR_QR'
                             ser.write(cmd.encode())
                             break
                     new_qr.release()
