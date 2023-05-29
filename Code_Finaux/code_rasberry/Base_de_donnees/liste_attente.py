@@ -1,17 +1,29 @@
+'''
+But du programme : Fonction permettant la manipulation de la base de donnée
+Auteurs : LEROUX Gaëlle / COURBIN Michel
+'''
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import gdown
 import datetime
 
+'''
+Cette fonction permet de trouver une string dans le sheet placer en paramètre.
+Renvoie la ligne et la colonne si trouvé sinon renvoie None.
+'''
 def trouver_nom(nom,sheet):
     try :
         cell = sheet.find(nom)
         return cell.row,cell.col
     except :
-        print("Le nom n'est pas dans la base de donnee")
         return None,None
 
+'''
+Cette fonction permet de trouver un nombre dans le sheet placer en paramètre.
+Renvoie la ligne et la colonne si trouvé sinon renvoie None.
+'''
 def trouver_nmb(nmb,sheet):
     try :
         cell = sheet.find(str(nmb))
@@ -20,6 +32,9 @@ def trouver_nmb(nmb,sheet):
         print("Le nombre n'est pas dans la base de donnee")
         return None,None
 
+'''
+Cette fonction permet de renvoyer la valeur situé à la colonne col+nmb et à la ligne row du sheet placé en paramètre.
+'''
 def get_x(row,col,nmb,sheet):
     return sheet.cell(row, col+nmb).value
 
@@ -27,7 +42,9 @@ def get_y(row,col,nmb,sheet):
     return sheet.cell(row, col+nmb).value
 
 
-# Connect to Google Sheets
+'''
+Cette fonction permet de se connecter au sheet placer en paramètre.
+'''
 def connect_bdd(nom):
     scope = ['https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive"]
@@ -38,6 +55,9 @@ def connect_bdd(nom):
     return sheet
 
 
+'''
+Cette fonction permet d'organiser la base de donnée lors de la fin d'une livraison.
+'''
 def organisation_bdd():
     # Update de la sheet Requete
     sheet = connect_bdd("Requete")
@@ -76,6 +96,9 @@ def recup_livraison():
         pos_y = get_y(li,col,3,sheet)
         print(pos_x,pos_y)
 
+'''
+Cette fonction permet de renvoyer les prochaines coordonnées que le robot doit atteindre.
+'''
 def get_new_coord(nmb):
     sheet = connect_bdd("Requete")
     cell = sheet.cell(2, nmb).value
