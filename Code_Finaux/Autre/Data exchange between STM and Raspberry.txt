@@ -1,0 +1,28 @@
+
+MESSAGES ORIGINANTS DE LA RASPBERRY
+
+ERROR_QR = pas de QR code détecté.
+
+ERROR_
+
+START_AUTONOMOUS: = demander à la STM32 de passer en déplacement autonome.
+
+DIR_INTI:[ANGLE]:[DIST] = Envoie de l'angle et de la distance à parcourir entre point de départ et destination.
+
+DIST_QR:[DIST_QR] = Information de la distance entre robot et QR Code
+
+
+
+
+
+
+
+MESSAGES ORIGINANTS DE LA STM32
+
+START_CAM =demande l'activation de la caméra
+
+ASK_INIT = demande de l'angle et de la distance à parcourir entre point de départ et destination.
+
+STOP_CAM = arret de lecture de qr code
+
+
