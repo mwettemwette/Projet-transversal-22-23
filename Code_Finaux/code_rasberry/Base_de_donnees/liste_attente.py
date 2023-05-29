@@ -49,7 +49,7 @@ def connect_bdd(nom):
     scope = ['https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive"]
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("Scripts/Python/projet.json", scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("Code_Finaux\code_rasberry\Base_de_donnees\projet.json", scope)
     client = gspread.authorize(credentials)
     sheet = client.open("BDD_nom_id_projet").worksheet(nom)
     return sheet
@@ -79,25 +79,12 @@ def organisation_bdd():
     else :
         pass
     
-   
-
-
-    
-
-def recup_livraison():
-    sheet = connect_bdd("Requete")
-    cell = sheet.cell(2, 2).value
-    if cell == "":
-        return None
-    else :
-        sheet = connect_bdd("Sheet1")
-        li,col = trouver_nmb(cell,sheet)
-        pos_x = get_x(li,col,2,sheet)
-        pos_y = get_y(li,col,3,sheet)
-        print(pos_x,pos_y)
 
 '''
 Cette fonction permet de renvoyer les prochaines coordonnées que le robot doit atteindre.
+La fonction prend en entrée 1 ou 2 :
+1 : renvoie les coordonnée de l'expéditeur de la prochaine livraison
+2 : renvoie les coordonnée du destinataire de la prochaine livraison
 '''
 def get_new_coord(nmb):
     sheet = connect_bdd("Requete")
@@ -110,21 +97,16 @@ def get_new_coord(nmb):
 
 
 
-# Instruction test
+'''Instruction test'''
 
 # organisation_bdd()
 
-# sheet = connect_bdd("Sheet2")
-# x,y = trouver_nom("Julien",sheet)
-# if (x!=None and y!=None):
-#     print(get_x(x,y,0,sheet))
-#     print(get_y(x,y,0,sheet))
+# a,b=get_new_coord(1)
+# print(a,b)
 
-# print("oui")
-# x,y = trouver_nmb(2,sheet)
-# if (x!=None and y!=None):
-#     print(get_x(x,y,1,sheet))
-#     print(get_y(x,y,1,sheet))
+# a,b=get_new_coord(2)
+# print(a,b)
+
 
 
 
