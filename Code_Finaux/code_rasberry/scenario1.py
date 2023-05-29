@@ -4,10 +4,10 @@ Auteurs : LEROUX Gaëlle / Arthur Pey
 '''
 
 import multiprocessing as mp
-import ./Detection_QR_code/Distance as dist
+from Detection_QR_code import Distance as dist
 import serial
 import cv2
-import ./detection_humain/detection2 as detec
+from Detection_humains import detection2 as detec
 import time
 
 '''Cette fonction permet de lancer le code détection d'humain image par image si la variable "detection_humain est à TRUE '''
