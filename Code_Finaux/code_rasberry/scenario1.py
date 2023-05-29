@@ -1,13 +1,13 @@
 '''
 But du programme : Lancement de plusieurs fonction avec du multiprocessing afin de faire fonctionner notre robot
-Auteurs : LEROUX Gaëlle 
+Auteurs : LEROUX Gaëlle / Arthur Pey
 '''
 
 import multiprocessing as mp
-import Distance as dist
+import ./Detection_QR_code/Distance as dist
 import serial
 import cv2
-import detection2 as detec
+import ./detection_humain/detection2 as detec
 import time
 
 '''Cette fonction permet de lancer le code détection d'humain image par image si la variable "detection_humain est à TRUE '''
