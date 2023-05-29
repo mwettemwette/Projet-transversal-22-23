@@ -1,6 +1,7 @@
 '''
 But du programme : détecter un QR code, retourner le nombre que celui contient, et la distance avec la caméra.
 Auteurs : LEROUX Gaëlle 
+Le code sur lequel est basé ce ficher est trouvable à l'adresse : https://github.com/Asadullah-Dal17/QR-detection-and-Distance-Estimation
 '''
 
 import cv2
