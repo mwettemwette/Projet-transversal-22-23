@@ -1,0 +1,8 @@
+../Core/Src/transceiver_uart.c:62:6:Init_DMA_Rcvd	16	static
+../Core/Src/transceiver_uart.c:78:6:Start_DMA_Rcvd	16	static
+../Core/Src/transceiver_uart.c:96:6:HAL_UARTEx_RxEventCallback	24	static
+../Core/Src/transceiver_uart.c:150:5:Retrieve_Msg	24	static
+../Core/Src/transceiver_uart.c:228:6:HAL_UART_TxHalfCpltCallback	16	static
+../Core/Src/transceiver_uart.c:234:6:HAL_UART_TxCpltCallback	16	static
+../Core/Src/transceiver_uart.c:239:6:UART_Send_Messages	32	static
+../Core/Src/transceiver_uart.c:300:6:Send_Msg	32	static

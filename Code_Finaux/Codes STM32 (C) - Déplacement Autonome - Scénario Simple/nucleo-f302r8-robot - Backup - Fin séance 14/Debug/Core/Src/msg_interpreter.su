@@ -1,0 +1,2 @@
+../Core/Src/msg_interpreter.c:29:6:Interpret_Message_Recv	32	static
+../Core/Src/msg_interpreter.c:111:6:Open_Cell	40	static
